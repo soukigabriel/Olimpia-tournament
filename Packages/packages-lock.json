@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.2d.tilemap": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.6.5",
       "depth": 1,
@@ -7,6 +19,13 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.6.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
@@ -20,7 +39,7 @@
     },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -64,6 +83,33 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.polybrush": {
+      "version": "1.0.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.postprocessing": {
+      "version": "3.0.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.probuilder": {
+      "version": "4.5.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "12.1.7",
       "depth": 1,
@@ -101,6 +147,13 @@
         "com.unity.nuget.newtonsoft-json": "3.0.2",
         "com.unity.modules.androidjni": "1.0.0"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.settings-manager": {
+      "version": "1.0.3",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
