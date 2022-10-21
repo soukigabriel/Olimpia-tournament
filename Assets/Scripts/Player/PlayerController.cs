@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 enum Player { Player1, Player2 }
 
-[RequireComponent(typeof(Rigidbody))]
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,18 +17,18 @@ public class PlayerController : MonoBehaviour
     [Header("Movement variables")]
     Vector3 movement;
     [SerializeField] float speed;
-    Rigidbody m_rigidBody;
+    [SerializeField] Rigidbody m_rigidBody;
     [SerializeField] float jumpForce;
     public bool canJump;
     public LayerMask groundMask;
     [SerializeField] float rayLenght = 2f;
     Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
     public bool canMove;
+    [SerializeField] bool isGrounded;
 
     [Space]
     [Header("Animations variables")]
     [SerializeField] Animator m_animator;
-    const string STATE_JUMP = "isJumping";
     public bool facingRight = true;
     readonly int m_HashStateTime = Animator.StringToHash("StateTime");
     readonly int m_HashStateBasicAttack = Animator.StringToHash("BasicAttack");
@@ -53,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         GetOtherPlayer();
-        m_rigidBody = GetComponent<Rigidbody>();
+        //m_rigidBody = GetComponent<Rigidbody>();
         SetPositions();
     }
 
@@ -71,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        IsTouchingTheGround();
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
         Jump();
         Punch();
@@ -111,31 +110,25 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if(Input.GetButtonDown("Jump") && IsTouchingTheGround() && canJump)
+        if(Input.GetButtonDown("Jump") && isGrounded /*&& canJump*/)
         {
             m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            m_animator.SetTrigger(STATE_JUMP);
-            canJump = false;
+            //canJump = false;
         }
     }
 
-    public void EndJump()
-    {
-        canJump = true;
-    }
 
-
-    bool IsTouchingTheGround()
+    void IsTouchingTheGround()
     {
         if(Physics.Raycast(this.transform.position + raycastOffset, Vector2.down, rayLenght, groundMask))
         {
-            m_animator.SetBool(m_HashStateGrounded, true);
-            return true;
+            isGrounded = true;
+            m_animator.SetBool(m_HashStateGrounded, isGrounded);
         }
         else
         {
-            m_animator.SetBool(m_HashStateGrounded, false);
-            return false;
+            isGrounded = false;
+            m_animator.SetBool(m_HashStateGrounded, isGrounded);
         }
     }
 
@@ -165,12 +158,12 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetBool(m_HashStateIsWalking, true);
         }
-        if (otherPlayer.position.x > this.transform.position.x && !facingRight && IsTouchingTheGround())
+        if (otherPlayer.position.x > this.transform.position.x && !facingRight && isGrounded)
         {
             facingRight = true;
             SetFacing();
         }
-        else if (otherPlayer.position.x < this.transform.position.x && facingRight && IsTouchingTheGround())
+        else if (otherPlayer.position.x < this.transform.position.x && facingRight && isGrounded)
         {
             facingRight = false;
             SetFacing();
