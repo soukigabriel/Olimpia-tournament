@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 enum Player { Player1, Player2 }
 
 
 public class PlayerController : MonoBehaviour
 {
+    //public delegate void PlayerDelegate();
+    //public event PlayerDelegate PlayerAttack;
+
     public Quaternion rightRotation;
     public Quaternion leftRotation;
 
     [SerializeField] Player thisPlayer;
 
+    [Space]
+    [Header("Behaviour Variables")]    
     Transform otherPlayer;
-    [SerializeField]Transform m_player;
+    [SerializeField] Transform m_player;
 
+    [Space]
     [Header("Movement variables")]
-    Vector3 movement;
+    public Vector3 movement;
     [SerializeField] float speed;
     [SerializeField] Rigidbody m_rigidBody;
     [SerializeField] float jumpForce;
@@ -25,6 +33,7 @@ public class PlayerController : MonoBehaviour
     Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
     public bool canMove;
     [SerializeField] bool isGrounded;
+    public bool isInCombo;
 
     [Space]
     [Header("Animations variables")]
@@ -36,6 +45,7 @@ public class PlayerController : MonoBehaviour
     readonly int m_HashStateHorizontalVelocity = Animator.StringToHash("HorizontalVelocity");
     readonly int m_HashStatePositionDiference = Animator.StringToHash("PositionDiference");
     readonly int m_HashStateGrounded = Animator.StringToHash("Grounded");
+    int m_HashParameterIsInCombo = Animator.StringToHash("IsInCombo");
 
 
     void GetOtherPlayer()
@@ -51,10 +61,13 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        isInCombo = false;
         GetOtherPlayer();
-        //m_rigidBody = GetComponent<Rigidbody>();
+        m_rigidBody = GetComponent<Rigidbody>();
         SetPositions();
     }
+
+    
 
     private void Start()
     {
@@ -64,16 +77,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(GetAxis());
-
+        Move(movement);
+        m_animator.ResetTrigger(m_HashStateBasicAttack);
     }
 
     private void Update()
     {
         IsTouchingTheGround();
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
-        Jump();
-        Punch();
+        //Jump();
         Debug.DrawLine(this.transform.position + raycastOffset, this.transform.localPosition + raycastOffset + (Vector3.down * rayLenght), Color.red);
     }
 
@@ -92,15 +104,13 @@ public class PlayerController : MonoBehaviour
         SetFacing();
     }
 
-
-    void Punch()
+    void OnBasicAttack()
     {
-        m_animator.ResetTrigger(m_HashStateBasicAttack);
-        if (Input.GetButtonDown("Fire1"))
-        {
-            //canMove = false;
-            m_animator.SetTrigger(m_HashStateBasicAttack);
-        }
+        m_animator.SetTrigger(m_HashStateBasicAttack);
+        canMove = false;
+        isInCombo = true;
+        m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
+        //canMove = false;
     }
 
     void SetCanMove()
@@ -108,9 +118,9 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    void Jump()
+    void OnJump()
     {
-        if(Input.GetButtonDown("Jump") && isGrounded /*&& canJump*/)
+        if(isGrounded)
         {
             m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             //canJump = false;
@@ -132,10 +142,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    Vector3 GetAxis()
+    void OnMove(InputValue movementValue)
     {
-        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0 , 0);
-        return movement;
+        movement = movementValue.Get<Vector2>();
     }
 
     void Move(Vector3 movement)
@@ -143,8 +152,16 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             m_rigidBody.velocity = new Vector3(movement.x * speed * Time.fixedDeltaTime, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
-            SetAnimations();
         }
+        else if(!canMove && isGrounded)
+        {
+            m_rigidBody.velocity = new Vector3 (0f, m_rigidBody.velocity.y , 0f);
+        }
+        else if(!canMove && !isGrounded)
+        {
+            m_rigidBody.velocity = new Vector3 (m_rigidBody.velocity.x, m_rigidBody.velocity.y , 0f);
+        }
+            SetAnimations();
     }
 
 
