@@ -10,12 +10,12 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] LayerMask OtherPlayerLayer;
 
-    int baseAttackDamage = 20;
+    [SerializeField] int baseAttackDamage = 20;
     int m_HashParameterDamaged = Animator.StringToHash("Damaged");
     int m_HashParameterIsInCombo = Animator.StringToHash("IsInCombo");
     int m_HashParameterReceivingDamage = Animator.StringToHash("ReceivingDamage");
 
-    void EndCombo()
+    public void EndCombo()
     {
         m_PlayerController.isInCombo = false;
         m_PlayerController.canMove = true;
@@ -29,6 +29,9 @@ public class PlayerCombat : MonoBehaviour
         foreach(Collider enemy in hitEnemies)
         {
             Animator enemyAnimator = enemy.GetComponentInChildren<Animator>();
+
+            //Añadir a esta condición que el enemigo no se este defendiendo
+
             if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit_1") || enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit_2") || enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit_3"))
             {
                 enemyAnimator.SetBool(m_HashParameterReceivingDamage, true);
@@ -41,6 +44,8 @@ public class PlayerCombat : MonoBehaviour
             enemy.GetComponent<PlayerResources>().SetHealth(-baseAttackDamage);
         }
     }
+
+
 
     private void OnDrawGizmosSelected()
     {

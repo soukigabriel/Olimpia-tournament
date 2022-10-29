@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-enum Player { Player1, Player2 }
+public enum Player { Player1, Player2 }
 
 
 public class PlayerController : MonoBehaviour
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public Quaternion rightRotation;
     public Quaternion leftRotation;
 
-    [SerializeField] Player thisPlayer;
+    public Player thisPlayer;
 
     [Space]
     [Header("Behaviour Variables")]    
@@ -66,11 +66,11 @@ public class PlayerController : MonoBehaviour
         m_rigidBody = GetComponent<Rigidbody>();
         SetPositions();
     }
-
     
 
     private void Start()
     {
+        //Time.timeScale = 0.05f;
         canJump = true;
         canMove = true;
     }
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        if(isGrounded)
+        if(isGrounded && !isInCombo)
         {
             m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             //canJump = false;
