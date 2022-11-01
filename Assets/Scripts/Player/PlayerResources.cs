@@ -10,6 +10,7 @@ public class PlayerResources : MonoBehaviour
     Player thisPlayer;
     GameObject myHealthBar;
     Slider myHealthBarSlider;
+
     
 
     private void Awake()
@@ -24,6 +25,8 @@ public class PlayerResources : MonoBehaviour
             myHealthBar = GameObject.Find("Player2Bar");
         }
         myHealthBarSlider = myHealthBar.GetComponent<Slider>();
+
+        UIManager.shareInstance.PlayAgainEvent += ResetResources;
     }
 
     int CurrentHealth
@@ -40,6 +43,16 @@ public class PlayerResources : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        UIManager.shareInstance.PlayAgainEvent += ResetResources;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.shareInstance.PlayAgainEvent -= ResetResources;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +67,11 @@ public class PlayerResources : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy died!");
+        UIManager.shareInstance.ShowGameOver(thisPlayer);
+    }
+
+    void ResetResources()
+    {
+        CurrentHealth = maxHealth;
     }
 }

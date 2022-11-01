@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public Player thisPlayer;
 
     [Space]
-    [Header("Behaviour Variables")]    
+    [Header("Behaviour Variables")]
     Transform otherPlayer;
     [SerializeField] Transform m_player;
 
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool canMove;
     [SerializeField] bool isGrounded;
     public bool isInCombo;
+    Vector3 initialPosition;
 
     [Space]
     [Header("Animations variables")]
@@ -61,12 +62,28 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        initialPosition = this.transform.position;
+        m_rigidBody = GetComponent<Rigidbody>();
+        InitialSettings();
+        UIManager.shareInstance.PlayAgainEvent += InitialSettings;
+    }
+
+    private void OnEnable()
+    {
+        UIManager.shareInstance.PlayAgainEvent += InitialSettings;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.shareInstance.PlayAgainEvent -= InitialSettings;
+    }
+
+    private void InitialSettings()
+    {
         isInCombo = false;
         GetOtherPlayer();
-        m_rigidBody = GetComponent<Rigidbody>();
         SetPositions();
     }
-    
 
     private void Start()
     {
@@ -100,7 +117,7 @@ public class PlayerController : MonoBehaviour
         {
             facingRight = false;
         }
-
+        this.transform.position = initialPosition;
         SetFacing();
     }
 
