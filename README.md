@@ -28,6 +28,10 @@ We are a small group passionate about video games ❤ with various roles and dis
 
 ## ¿Why?
 
+Each team member is looking to improve his game development and temawork skills, so we decided to start this non profit game as a personal project.
+
+We choose this type of game because fighting games are one of the most difficult genres to develop. It has a very complex use of animations, state machines, camera and cinematics, physics, collisions, input system, multiplayer, etc.
+
 ## ¿Where?
 
 ## ¿How?
