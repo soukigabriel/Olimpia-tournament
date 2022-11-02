@@ -2,13 +2,11 @@
 
 [![Header](https://i.imgur.com/NxuCGUo.png "Header")](https://imgur.com/gallery/Ai5tUrf "Header")
 =============
-### Welcome to the battlegrounds!!
+# Welcome to the battlegrounds!!
 
 Olimpia tournament is a 3D lateral scrolling fighting game ⚔ set  in an archaic era world were the Gods of the Olimpus build a conection betwen them and humans. They will bring humans his powers, and humans will fight for them to reach glory 🏆
 
-[TOCM]
-
-# ¿What?
+## ¿What?
 
 Olimpia Tournament is a fighting game set in a version of our world were the Olimpus Gods are making a tournament where the winner will claim power and domains against the others.
 
@@ -16,7 +14,7 @@ Each God will make a link between himself and a chosen-by-him human.
 
 The player will takes on the roll of one of those humans and will fight against other to gain the chance of been rewarded with a wish of his preference.
 
-# ¿Who?
+## ¿Who?
 
 We are a small group passionate about video games ❤ with various roles and disciplines.
 
@@ -28,8 +26,8 @@ We are a small group passionate about video games ❤ with various roles and dis
 
 [Ismael Nabte👨🏻‍🎤](https://github.com/nabte "Ismael"): Musician
 
-# ¿Why?
+## ¿Why?
 
-# ¿Where?
+## ¿Where?
 
-# ¿How?
+## ¿How?
