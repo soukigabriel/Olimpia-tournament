@@ -28662,7 +28662,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0833334
+  - time: 1
     functionName: EndCombo
     data: 
     objectReferenceParameter: {fileID: 0}

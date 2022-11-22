@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
     void SetHitBox()
     {
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, OtherPlayerLayer);
-
+        m_PlayerController.PlayRandomAttackAudio();
         foreach(Collider enemy in hitEnemies)
         {
             Animator enemyAnimator = enemy.GetComponentInChildren<Animator>();
@@ -40,8 +40,12 @@ public class PlayerCombat : MonoBehaviour
             {
                 enemyAnimator.SetBool(m_HashParameterReceivingDamage, false);
             }
-            enemy.GetComponentInChildren<Animator>().SetTrigger(m_HashParameterDamaged);
             enemy.GetComponent<PlayerResources>().SetHealth(-baseAttackDamage);
+            if (enemy.GetComponent<PlayerResources>().CurrentHealth > 0)
+            {
+                enemy.GetComponentInChildren<Animator>().SetTrigger(m_HashParameterDamaged);
+                enemy.GetComponent<PlayerController>().PlayRandomHurtAudio();
+            }
         }
     }
 

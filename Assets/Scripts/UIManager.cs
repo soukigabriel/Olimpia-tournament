@@ -5,8 +5,6 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public delegate void UIDelegate();
-    public event UIDelegate PlayAgainEvent;
     public static UIManager shareInstance;
 
     [SerializeField] GameObject gameOverObject;
@@ -27,8 +25,8 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        PlayAgainEvent += ShowHUD;
-        PlayAgainEvent += HideGameOver;
+        GameManager.OnInGame += ShowHUD;
+        GameManager.OnInGame += HideGameOver;
     }
 
     public void ShowGameOver(Player thePLayer)
@@ -72,6 +70,6 @@ public class UIManager : MonoBehaviour
 
     public void PlayAgain()
     {
-        PlayAgainEvent?.Invoke();
+        GameManager.sharedInstance.CurrentGameState = GameState.inGame;
     }
 }

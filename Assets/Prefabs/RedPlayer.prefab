@@ -112,6 +112,7 @@ MonoBehaviour:
   leftRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   thisPlayer: 1
   m_player: {fileID: 6864424085240070044}
+  movement: {x: 0, y: 0, z: 0}
   speed: 0
   m_rigidBody: {fileID: 1520475497421626314}
   jumpForce: 5
@@ -122,8 +123,21 @@ MonoBehaviour:
   rayLenght: 0.85
   canMove: 0
   isGrounded: 0
+  isInCombo: 0
   m_animator: {fileID: 6579788261084016149}
   facingRight: 1
+  attackAudio:
+  - {fileID: 8300000, guid: e1eac792eb2eff8409cf626cf7fea3a6, type: 3}
+  - {fileID: 8300000, guid: 0ee6ee5a2dc7ee84cad5fa2ac7bae349, type: 3}
+  - {fileID: 8300000, guid: 9eef6b86fa392ab45b4100d032348c2d, type: 3}
+  - {fileID: 8300000, guid: 73a516977ec7086458358279e0a4cd73, type: 3}
+  - {fileID: 8300000, guid: 8a95c816517b2354caaa57c2cb5395d4, type: 3}
+  hurtAudio:
+  - {fileID: 8300000, guid: a5f0b7eddbfa8d54daab430cf0736665, type: 3}
+  - {fileID: 8300000, guid: 36e3623afe71db44898e094a9c6f7320, type: 3}
+  - {fileID: 8300000, guid: 09a9901814b353e48913638ca4168e0b, type: 3}
+  - {fileID: 8300000, guid: 3447f7daa59c0bd4aa3c3fdadbc8f5c1, type: 3}
+  - {fileID: 8300000, guid: 1b0bd548719e1044a95baebf141beb21, type: 3}
 --- !u!1001 &6397904416877566071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -577,6 +591,7 @@ MonoBehaviour:
   OtherPlayerLayer:
     serializedVersion: 2
     m_Bits: 64
+  baseAttackDamage: 20
 --- !u!4 &6864424085240070044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d54deab0273e0c34ba7da236a9688c3a,

@@ -26,10 +26,10 @@ public class PlayerResources : MonoBehaviour
         }
         myHealthBarSlider = myHealthBar.GetComponent<Slider>();
 
-        UIManager.shareInstance.PlayAgainEvent += ResetResources;
+        GameManager.OnInGame += ResetResources;
     }
 
-    int CurrentHealth
+    public int CurrentHealth
     {
         get => currentHealth;
         set
@@ -45,12 +45,12 @@ public class PlayerResources : MonoBehaviour
 
     private void OnEnable()
     {
-        UIManager.shareInstance.PlayAgainEvent += ResetResources;
+        GameManager.OnInGame += ResetResources;
     }
 
     private void OnDisable()
     {
-        UIManager.shareInstance.PlayAgainEvent -= ResetResources;
+        GameManager.OnInGame -= ResetResources;
     }
 
     // Start is called before the first frame update
@@ -68,6 +68,9 @@ public class PlayerResources : MonoBehaviour
     void Die()
     {
         UIManager.shareInstance.ShowGameOver(thisPlayer);
+        gameObject.GetComponentInChildren<Animator>().SetInteger("RandomDeath", Random.Range(1, 5));
+        gameObject.GetComponentInChildren<Animator>().SetTrigger("Death");
+        GameManager.sharedInstance.CurrentGameState = GameState.gameOver;
     }
 
     void ResetResources()

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [Header("Behaviour Variables")]
     Transform otherPlayer;
     [SerializeField] Transform m_player;
+    PlayerResources m_PlayerResources;
 
     [Space]
     [Header("Movement variables")]
@@ -44,10 +45,18 @@ public class PlayerController : MonoBehaviour
     readonly int m_HashStateBasicAttack = Animator.StringToHash("BasicAttack");
     readonly int m_HashStateIsWalking = Animator.StringToHash("IsWalking");
     readonly int m_HashStateHorizontalVelocity = Animator.StringToHash("HorizontalVelocity");
+    readonly int m_HashStateHorizontalVelocityAbs = Animator.StringToHash("HorizontalVelocityAbs");
     readonly int m_HashStatePositionDiference = Animator.StringToHash("PositionDiference");
     readonly int m_HashStateGrounded = Animator.StringToHash("Grounded");
     int m_HashParameterIsInCombo = Animator.StringToHash("IsInCombo");
 
+    [Space]
+    [Header("Audio")]
+    [SerializeField] AudioClip[] attackAudio;
+    [SerializeField] AudioClip[] hurtAudio;
+    [SerializeField] AudioClip[] deathAudio;
+    int attackAudioLength, hurtAudioLength, deathAudioLength;
+    AudioSource m_AudioSource;
 
     void GetOtherPlayer()
     {
@@ -60,26 +69,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        initialPosition = this.transform.position;
-        m_rigidBody = GetComponent<Rigidbody>();
-        InitialSettings();
-        UIManager.shareInstance.PlayAgainEvent += InitialSettings;
-    }
-
-    private void OnEnable()
-    {
-        UIManager.shareInstance.PlayAgainEvent += InitialSettings;
-    }
-
     private void OnDisable()
     {
-        UIManager.shareInstance.PlayAgainEvent -= InitialSettings;
+        GameManager.OnInGame -= InitialSettings;
     }
 
     private void InitialSettings()
     {
+        canJump = true;
+        canMove = true;
+        m_animator.SetTrigger("Revive");
         isInCombo = false;
         GetOtherPlayer();
         SetPositions();
@@ -87,15 +86,22 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //Time.timeScale = 0.05f;
-        canJump = true;
-        canMove = true;
+        initialPosition = this.transform.position;
+        m_rigidBody = GetComponent<Rigidbody>();
+        InitialSettings();
+        GameManager.OnInGame += InitialSettings;
+        attackAudioLength = attackAudio.Length;
+        hurtAudioLength = hurtAudio.Length;
+        deathAudioLength = deathAudio.Length;
+        m_AudioSource = gameObject.GetComponent<AudioSource>();
+        m_PlayerResources = gameObject.GetComponent<PlayerResources>();
     }
 
     private void FixedUpdate()
     {
         Move(movement);
         m_animator.ResetTrigger(m_HashStateBasicAttack);
+        m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
     }
 
     private void Update()
@@ -123,11 +129,41 @@ public class PlayerController : MonoBehaviour
 
     void OnBasicAttack()
     {
-        m_animator.SetTrigger(m_HashStateBasicAttack);
-        canMove = false;
-        isInCombo = true;
-        m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
-        //canMove = false;
+        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame && isGrounded)
+        {
+            m_animator.SetTrigger(m_HashStateBasicAttack);
+            m_rigidBody.velocity = Vector3.zero;
+            canMove = false;
+            isInCombo = true;
+            m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
+            //PlayRandomAttackAudio();
+            //canMove = false;
+        }
+    }
+
+    public void PlayRandomHurtAudio()
+    {
+        if(m_PlayerResources.CurrentHealth > 0)
+        {
+            int randomIndex = Random.Range(0, hurtAudioLength);
+            m_AudioSource.PlayOneShot(hurtAudio[randomIndex]);
+        }
+        else
+        {
+            PlayRandomDeathAudio();
+        }
+    }
+
+    public void PlayRandomDeathAudio()
+    {
+        int randomIndex = Random.Range(0, deathAudioLength);
+        m_AudioSource.PlayOneShot(deathAudio[randomIndex]);
+    }
+
+    public void PlayRandomAttackAudio()
+    {
+        int randomIndex = Random.Range(0, attackAudioLength);
+        m_AudioSource.PlayOneShot(attackAudio[randomIndex]);
     }
 
     void SetCanMove()
@@ -137,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        if(isGrounded && !isInCombo)
+        if (isGrounded && !isInCombo && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
         {
             m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             //canJump = false;
@@ -166,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     void Move(Vector3 movement)
     {
-        if (canMove)
+        if (!isInCombo && canMove && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
         {
             m_rigidBody.velocity = new Vector3(movement.x * speed * Time.fixedDeltaTime, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
         }
@@ -178,7 +214,7 @@ public class PlayerController : MonoBehaviour
         {
             m_rigidBody.velocity = new Vector3 (m_rigidBody.velocity.x, m_rigidBody.velocity.y , 0f);
         }
-            SetAnimations();
+        SetAnimations();
     }
 
 
@@ -203,6 +239,7 @@ public class PlayerController : MonoBehaviour
             SetFacing();
         }
         m_animator.SetFloat(m_HashStateHorizontalVelocity, m_rigidBody.velocity.x);
+        m_animator.SetFloat(m_HashStateHorizontalVelocityAbs, Mathf.Abs(m_rigidBody.velocity.x));
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
 
