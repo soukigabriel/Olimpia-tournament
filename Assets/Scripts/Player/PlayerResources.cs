@@ -11,8 +11,6 @@ public class PlayerResources : MonoBehaviour
     GameObject myHealthBar;
     Slider myHealthBarSlider;
 
-    
-
     private void Awake()
     {
         thisPlayer = gameObject.GetComponent<PlayerController>().thisPlayer;

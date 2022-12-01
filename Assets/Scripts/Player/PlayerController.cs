@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public enum Player { Player1, Player2 }
 
-
 public class PlayerController : MonoBehaviour
 {
     //public delegate void PlayerDelegate();
@@ -31,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public bool canJump;
     public LayerMask groundMask;
     [SerializeField] float rayLenght = 2f;
-    Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
+    public Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
     public bool canMove;
     [SerializeField] bool isGrounded;
     public bool isInCombo;
@@ -202,18 +201,18 @@ public class PlayerController : MonoBehaviour
 
     void Move(Vector3 movement)
     {
-        if (!isInCombo && canMove && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
-        {
-            m_rigidBody.velocity = new Vector3(movement.x * speed * Time.fixedDeltaTime, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
-        }
-        else if(!canMove && isGrounded)
-        {
-            m_rigidBody.velocity = new Vector3 (0f, m_rigidBody.velocity.y , 0f);
-        }
-        else if(!canMove && !isGrounded)
-        {
-            m_rigidBody.velocity = new Vector3 (m_rigidBody.velocity.x, m_rigidBody.velocity.y , 0f);
-        }
+        //if (!isInCombo && canMove && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
+        //{
+        //    m_rigidBody.velocity = new Vector3(movement.x * speed * Time.fixedDeltaTime, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
+        //}
+        //else if(!canMove && isGrounded)
+        //{
+        //    m_rigidBody.velocity = new Vector3 (0f, m_rigidBody.velocity.y , 0f);
+        //}
+        //else if(!canMove && !isGrounded)
+        //{
+        //    m_rigidBody.velocity = new Vector3 (m_rigidBody.velocity.x, m_rigidBody.velocity.y , 0f);
+        //}
         SetAnimations();
     }
 
@@ -238,8 +237,8 @@ public class PlayerController : MonoBehaviour
             facingRight = false;
             SetFacing();
         }
-        m_animator.SetFloat(m_HashStateHorizontalVelocity, m_rigidBody.velocity.x);
-        m_animator.SetFloat(m_HashStateHorizontalVelocityAbs, Mathf.Abs(m_rigidBody.velocity.x));
+        m_animator.SetFloat(m_HashStateHorizontalVelocity, movement.x);
+        m_animator.SetFloat(m_HashStateHorizontalVelocityAbs, Mathf.Abs(movement.x));
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
 

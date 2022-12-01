@@ -1,0 +1,406 @@
+fileFormatVersion: 2
+guid: 3cf12ebb404888148b7b8d1051d708fd
+ModelImporter:
+  serializedVersion: 21202
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 1
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftLowerLeg' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Base Human_M_Pelvis/Base Human_M_Spine_1/Base Human_M_Spine_2/Base Human_M_Ribcage/Base
+      Human_L_Collarbone/Base Human_L_Upperarm/Base Human_L_Forearm/Base Human_L_Palm/m_Hammer
+    - Base Human_M_Pelvis/Base Human_M_Spine_1/Base Human_M_Spine_2/Base Human_M_Ribcage/Base
+      Human_R_Collarbone/Base Human_R_Upperarm/Base Human_R_Forearm/Base Human_R_Palm/m_HotIron
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: Base Human_M_Pelvis
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_M_Spine_1
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_M_Spine_2
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_L_Collarbone
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_R_Collarbone
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_L_Upperarm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_R_Upperarm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_L_Forearm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_R_Forearm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_L_Palm
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_R_Palm
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base Human_M_Ribcage
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base Human_M_Pelvis
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.000000026986458, y: 0.51982445, z: -0.056873113}
+      rotation: {x: 0.49912268, y: -0.50086725, z: -0.49913114, w: 0.5008759}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base Human_M_Spine_1
+      parentName: Base Human_M_Pelvis
+      position: {x: -0.025763785, y: -0.0019711975, z: -0.0000000048920876}
+      rotation: {x: 0.00000003180038, y: -0.00000010981575, z: -0.06114484, w: 0.9981289}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000001}
+    - name: Base Human_M_Spine_2
+      parentName: Base Human_M_Spine_1
+      position: {x: -0.31342182, y: 0, z: 9.240466e-14}
+      rotation: {x: -0.000000023773573, y: 0.00000012624169, z: 0.14088559, w: 0.9900259}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1}
+    - name: Base Human_M_Ribcage
+      parentName: Base Human_M_Spine_2
+      position: {x: -0.2669934, y: 0, z: 0}
+      rotation: {x: 0.0000000016620576, y: 0.00000000463901, z: -0.08182572, w: 0.99664664}
+      scale: {x: 0.99999934, y: 0.9999992, z: 0.9999999}
+    - name: Base Human_L_Collarbone
+      parentName: Base Human_M_Ribcage
+      position: {x: 0.10805242, y: 0.053875282, z: 0.23597515}
+      rotation: {x: 0.18981862, y: 0.68448824, z: 0.26113227, w: 0.65364724}
+      scale: {x: 0.9999996, y: 1, z: 1.0000004}
+    - name: Base Human_L_Upperarm
+      parentName: Base Human_L_Collarbone
+      position: {x: -0.133223, y: 0, z: 0}
+      rotation: {x: 0.13251165, y: 0.40692532, z: -0.31820226, w: 0.8459313}
+      scale: {x: 0.9999995, y: 1.0000001, z: 1.0000004}
+    - name: Base Human_L_Forearm
+      parentName: Base Human_L_Upperarm
+      position: {x: -0.25136158, y: 0.000000012111664, z: 0}
+      rotation: {x: 0.039468102, y: 0.16489063, z: -0.47912776, w: 0.8612142}
+      scale: {x: 0.99999905, y: 1.0000002, z: 1.0000005}
+    - name: Base Human_L_Palm
+      parentName: Base Human_L_Forearm
+      position: {x: -0.29649913, y: 0.000000024223327, z: 0.000000048446655}
+      rotation: {x: -0.7123862, y: 0.10179795, z: 0.009848218, w: 0.6942955}
+      scale: {x: 0.9999991, y: 1, z: 1.0000012}
+    - name: m_Hammer
+      parentName: Base Human_L_Palm
+      position: {x: -0.2364744, y: -0.8542955, z: 0.14130567}
+      rotation: {x: 0.5030686, y: 0.56914943, z: 0.46195525, w: -0.4578081}
+      scale: {x: 1.0000001, y: 1.000001, z: 0.999999}
+    - name: Base Human_R_Collarbone
+      parentName: Base Human_M_Ribcage
+      position: {x: 0.10805242, y: 0.053875297, z: -0.23597525}
+      rotation: {x: -0.13646372, y: -0.7699151, z: 0.1866943, w: 0.5947719}
+      scale: {x: 0.9999997, y: 1.0000001, z: 1.0000005}
+    - name: Base Human_R_Upperarm
+      parentName: Base Human_R_Collarbone
+      position: {x: -0.13322303, y: -0.000000012111664, z: 0.00000009689331}
+      rotation: {x: -0.11566917, y: -0.3117556, z: -0.21072945, w: 0.9192509}
+      scale: {x: 1.0000002, y: 1.0000004, z: 0.9999998}
+    - name: Base Human_R_Forearm
+      parentName: Base Human_R_Upperarm
+      position: {x: -0.25136158, y: -0.000000003027916, z: 0}
+      rotation: {x: -0.17333895, y: 0.0067405966, z: -0.40017864, w: 0.89986956}
+      scale: {x: 1.0000002, y: 0.99999994, z: 0.9999995}
+    - name: Base Human_R_Palm
+      parentName: Base Human_R_Forearm
+      position: {x: -0.29649913, y: 0, z: 0}
+      rotation: {x: 0.49034557, y: 0.030291466, z: 0.17180556, w: 0.85388905}
+      scale: {x: 1.0000013, y: 1.0000001, z: 1.0000006}
+    - name: m_HotIron
+      parentName: Base Human_R_Palm
+      position: {x: -0.0360782, y: -0.016066462, z: -0.03548698}
+      rotation: {x: 0.28921553, y: -0.67288953, z: 0.2579546, w: 0.6301059}
+      scale: {x: 0.99999976, y: 0.99999815, z: 1.0000005}
+    - name: LO_Anvil
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0, y: 0, z: 0.59351003}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 0.9365708, y: 0.9365708, z: 0.9365708}
+    - name: m_Mesh
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: m_ShoulderPads
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.29343176, y: 1.106708, z: -0.094996855}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Object008
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.29238635, y: 1.1371835, z: -0.13482611}
+      rotation: {x: -0.81723803, y: 0.0022020668, z: -0.15070237, w: 0.55624276}
+      scale: {x: 1, y: 1.0297302, z: 1.0000001}
+    - name: Plane001
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.042369556, y: 0, z: 0.27517292}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1.2598284, y: 1.2598284, z: 0.8857668}
+    - name: Plane004
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.25248593, y: 0.5928914, z: 0.5874132}
+      rotation: {x: -0.000000037713022, y: -0.0000000016465858, z: 0.04361938, w: 0.99904823}
+      scale: {x: 0.105384864, y: 0.105384864, z: 0.105384864}
+    - name: Plane005
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.24850714, y: 0.629853, z: 0.5874132}
+      rotation: {x: -0.000000018874482, y: 0.000000032691556, z: -0.8660254, w: 0.5000001}
+      scale: {x: 0.117371224, y: 0.117371224, z: 0.117371224}
+    - name: Plane006
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.04240675, y: 0.29367825, z: 0.9177471}
+      rotation: {x: 0.7464947, y: 0.13393152, z: -0.62894243, w: -0.1709955}
+      scale: {x: 0.11898375, y: 0.11898377, z: 0.11898376}
+    - name: Plane007
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.14053112, y: 0.51738733, z: 0.77459556}
+      rotation: {x: -0.4435054, y: 0.23087439, z: 0.7681739, w: -0.39988622}
+      scale: {x: 0.1137734, y: 0.11377338, z: 0.11377339}
+    - name: Plane008
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.07623873, y: 0.5924557, z: 0.44452432}
+      rotation: {x: -0.021809723, y: -0.49952418, z: 0.03777547, w: 0.8652012}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane009
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.06646359, y: 0.5623835, z: 0.5538264}
+      rotation: {x: 0.041600555, y: 0.9528093, z: -0.013116565, w: -0.30041963}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane010
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.155016, y: 0.4314682, z: 0.3906466}
+      rotation: {x: 0.8854977, y: 0.21157649, z: 0.41075128, w: 0.049117334}
+      scale: {x: 0.11898375, y: 0.11898377, z: 0.11898376}
+    - name: Plane011
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.16294578, y: 0.51738733, z: 0.62280124}
+      rotation: {x: 0.8836354, y: -0.4599917, z: 0.077307984, w: -0.040243987}
+      scale: {x: 0.1137734, y: 0.11377338, z: 0.11377339}
+    - name: Plane012
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.08896141, y: 0.629853, z: 0.82583416}
+      rotation: {x: 0.7848855, y: -0.45315397, z: -0.36599812, w: 0.21130918}
+      scale: {x: 0.117371224, y: 0.117371224, z: 0.117371224}
+    - name: Plane013
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.022549078, y: 0.5556157, z: 0.7027425}
+      rotation: {x: 0.029468795, y: 0.67494726, z: 0.032159604, w: 0.73657566}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane014
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.42761075, y: 0.73281705, z: 0.6689116}
+      rotation: {x: 0.04345339, y: 0.9952466, z: 0.0038017128, w: 0.0870727}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane015
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.18971251, y: 0.709179, z: 0.49372354}
+      rotation: {x: 0.039532598, y: 0.90544516, z: -0.01843431, w: -0.42221603}
+      scale: {x: 0.105384864, y: 0.105384864, z: 0.105384864}
+    - name: Plane016
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.004620239, y: 0.5556157, z: 0.57366985}
+      rotation: {x: 0.0434534, y: 0.9952466, z: -0.0038016404, w: -0.08707276}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane017
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.037530236, y: 0.5149828, z: 0.67093545}
+      rotation: {x: -0.59925556, y: 0.31195286, z: 0.6539731, w: -0.34043705}
+      scale: {x: 0.1137734, y: 0.11377338, z: 0.11377339}
+    - name: Plane018
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.15189545, y: 0.629853, z: 0.61896676}
+      rotation: {x: -0.18744202, y: 0.108219706, z: 0.84549713, w: -0.48814812}
+      scale: {x: 0.117371224, y: 0.117371224, z: 0.117371224}
+    - name: Plane019
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.12172623, y: 0.5623835, z: 0.56920856}
+      rotation: {x: -0.014918732, y: -0.3416944, z: 0.0409888, w: 0.9387983}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane020
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.2197145, y: 0.5924557, z: 0.70536786}
+      rotation: {x: 0.016692383, y: 0.38231927, z: 0.040299065, w: 0.92300016}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane021
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.004590296, y: 0.7111724, z: 0.5841473}
+      rotation: {x: -0.04773391, y: 0.28504246, z: -0.34775344, w: 0.8919304}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane022
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: -0.5343798, y: 0.5924557, z: 0.70536786}
+      rotation: {x: -0.20561573, y: 0.32275203, z: 0.56242216, w: 0.7329629}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    - name: Plane023
+      parentName: 522c4a354ac04bef977b09b11f785f9b.fbx(Clone)
+      position: {x: 0.07594185, y: 0.8765649, z: 0.5841473}
+      rotation: {x: -0.04773391, y: 0.28504246, z: -0.34775344, w: 0.8919304}
+      scale: {x: 0.10046627, y: 0.10046627, z: 0.10046627}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
