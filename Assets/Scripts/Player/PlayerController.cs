@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
     int attackAudioLength, hurtAudioLength, deathAudioLength;
     AudioSource m_AudioSource;
 
+    public PlayerInput m_PlayerInput;
+
     void GetOtherPlayer()
     {
         switch (thisPlayer)
@@ -192,6 +194,19 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             m_animator.SetBool(m_HashStateGrounded, isGrounded);
         }
+    }
+
+    void OnRun(InputValue value)
+    {
+        if(value.Get<float>() == 1f)
+        {
+            m_animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            m_animator.SetBool("isRunning", false);
+        }
+        Debug.Log(value.Get<float>());
     }
 
     void OnMove(InputValue movementValue)
