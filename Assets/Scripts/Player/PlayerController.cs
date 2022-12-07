@@ -23,8 +23,10 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("Movement variables")]
-    public Vector3 movement;
-    [SerializeField] float speed;
+    public Vector2 axis;
+    public Vector2 movement;
+    [SerializeField] private float smoothInputSpeed = 0.2f;
+    private float smoothInputVelocity;
     [SerializeField] Rigidbody m_rigidBody;
     [SerializeField] float jumpForce;
     public bool canJump;
@@ -43,11 +45,12 @@ public class PlayerController : MonoBehaviour
     readonly int m_HashStateTime = Animator.StringToHash("StateTime");
     readonly int m_HashStateBasicAttack = Animator.StringToHash("BasicAttack");
     readonly int m_HashStateIsWalking = Animator.StringToHash("IsWalking");
-    readonly int m_HashStateHorizontalVelocity = Animator.StringToHash("HorizontalVelocity");
-    readonly int m_HashStateHorizontalVelocityAbs = Animator.StringToHash("HorizontalVelocityAbs");
+    readonly int m_HashStateHorizontalAxis = Animator.StringToHash("HorizontalAxis");
+    readonly int m_HashStateHorizontalAxisAbs = Animator.StringToHash("HorizontalAxisAbs");
     readonly int m_HashStatePositionDiference = Animator.StringToHash("PositionDiference");
     readonly int m_HashStateGrounded = Animator.StringToHash("Grounded");
     int m_HashParameterIsInCombo = Animator.StringToHash("IsInCombo");
+    int m_HashParameterVerticalVelocity = Animator.StringToHash("VerticalSpeed");
 
     [Space]
     [Header("Audio")]
@@ -87,6 +90,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //Time.timeScale = 0.1f;
+
         initialPosition = this.transform.position;
         m_rigidBody = GetComponent<Rigidbody>();
         InitialSettings();
@@ -100,13 +105,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move(movement);
         m_animator.ResetTrigger(m_HashStateBasicAttack);
         m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
     }
 
     private void Update()
     {
+        Move();
         IsTouchingTheGround();
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
         //Jump();
@@ -137,6 +142,9 @@ public class PlayerController : MonoBehaviour
             canMove = false;
             isInCombo = true;
             m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
+
+
+
             //PlayRandomAttackAudio();
             //canMove = false;
         }
@@ -153,6 +161,11 @@ public class PlayerController : MonoBehaviour
         {
             PlayRandomDeathAudio();
         }
+    }
+
+    public void ActivateRootMotion()
+    {
+        m_animator.applyRootMotion = true;
     }
 
     public void PlayRandomDeathAudio()
@@ -176,11 +189,11 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && !isInCombo && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
         {
+            m_animator.applyRootMotion = false;
             m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             //canJump = false;
         }
     }
-
 
     void IsTouchingTheGround()
     {
@@ -206,35 +219,26 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetBool("isRunning", false);
         }
-        Debug.Log(value.Get<float>());
     }
 
     void OnMove(InputValue movementValue)
     {
-        movement = movementValue.Get<Vector2>();
+        axis = movementValue.Get<Vector2>();
     }
 
-    void Move(Vector3 movement)
+    void Move()
     {
-        //if (!isInCombo && canMove && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
-        //{
-        //    m_rigidBody.velocity = new Vector3(movement.x * speed * Time.fixedDeltaTime, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
-        //}
-        //else if(!canMove && isGrounded)
-        //{
-        //    m_rigidBody.velocity = new Vector3 (0f, m_rigidBody.velocity.y , 0f);
-        //}
-        //else if(!canMove && !isGrounded)
-        //{
-        //    m_rigidBody.velocity = new Vector3 (m_rigidBody.velocity.x, m_rigidBody.velocity.y , 0f);
-        //}
+        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame)
+        {
+            movement.x = Mathf.SmoothDamp(movement.x, axis.x, ref smoothInputVelocity, smoothInputSpeed);
+        }
         SetAnimations();
     }
 
 
     private void SetAnimations()
     {
-        if (m_rigidBody.velocity.x == 0)
+        if (movement.x == 0)
         {
             m_animator.SetBool(m_HashStateIsWalking, false);
         }
@@ -252,8 +256,9 @@ public class PlayerController : MonoBehaviour
             facingRight = false;
             SetFacing();
         }
-        m_animator.SetFloat(m_HashStateHorizontalVelocity, movement.x);
-        m_animator.SetFloat(m_HashStateHorizontalVelocityAbs, Mathf.Abs(movement.x));
+        m_animator.SetFloat(m_HashStateHorizontalAxis, movement.x);
+        m_animator.SetFloat(m_HashParameterVerticalVelocity, m_rigidBody.velocity.y);
+        m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(movement.x));
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
 
