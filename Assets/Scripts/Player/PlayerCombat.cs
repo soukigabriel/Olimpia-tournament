@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerResources))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] Animator m_Animator;

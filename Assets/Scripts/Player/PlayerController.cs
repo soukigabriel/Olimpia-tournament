@@ -228,10 +228,11 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame)
-        {
-            movement.x = Mathf.SmoothDamp(movement.x, axis.x, ref smoothInputVelocity, smoothInputSpeed);
-        }
+        //if (GameManager.sharedInstance.CurrentGameState == GameState.inGame)
+        //{
+        //    movement.x = Mathf.SmoothDamp(movement.x, axis.x, ref smoothInputVelocity, smoothInputSpeed);
+        //}
+        movement = axis;
         SetAnimations();
     }
 
@@ -256,9 +257,9 @@ public class PlayerController : MonoBehaviour
             facingRight = false;
             SetFacing();
         }
-        m_animator.SetFloat(m_HashStateHorizontalAxis, movement.x);
+        m_animator.SetFloat(m_HashStateHorizontalAxis, movement.x, smoothInputSpeed, Time.deltaTime);
         m_animator.SetFloat(m_HashParameterVerticalVelocity, m_rigidBody.velocity.y);
-        m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(movement.x));
+        m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(movement.x), smoothInputSpeed, Time.deltaTime);
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
 
