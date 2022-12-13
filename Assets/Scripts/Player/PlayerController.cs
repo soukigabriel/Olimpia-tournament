@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Movement variables")]
     public Vector2 axis;
-    public Vector2 movement;
+    private float m_HorizontalSpeed;
+    private float m_VerticalSpeed;
     [SerializeField] private float smoothInputSpeed = 0.2f;
     private float smoothInputVelocity;
     [SerializeField] float jumpSpeed;
@@ -61,12 +62,13 @@ public class PlayerController : MonoBehaviour
     public PlayerInput m_PlayerInput;
 
     public CharacterController m_CharacterController;
-    private float ySpeed;
     private float? lastGroundedTime;
     private float? jumpButtonPressedTime;
     public float jumpButtonGracePeriod;
     public float lastGroundedGraceTime;
-
+    public Vector3 rootMotion;
+    public Vector3 velocity;
+    public bool m_IsGrounded;
 
     void GetOtherPlayer()
     {
@@ -108,35 +110,32 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ySpeed += Physics.gravity.y * Time.fixedDeltaTime;
-        if (m_CharacterController.isGrounded)
-        {
-            lastGroundedTime = Time.time;
-        }
-        if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
-        {
-            canJump = true;
-            ySpeed = -0.5f;
-            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
-            {
-                ySpeed = jumpSpeed;
-                canJump = false;
-                jumpButtonPressedTime = null;
-                lastGroundedTime = null;
-            }
-        }
-        else
-        {
-            canJump = false;
-        }
+        CalculateIsGrounded();
+        CalculateHorizontalMovement();
+        CalculateVerticalMovement();
+
+        //if(Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
+        //{
+        //    velocity = m_animator.velocity * Time.fixedDeltaTime;
+        //    velocity.y = ySpeed;
+        //    m_CharacterController.Move(velocity * Time.fixedDeltaTime);
+        //}
+        //else
+        //{
+        //    m_CharacterController.Move(rootMotion);
+        //    rootMotion = Vector3.zero;
+        //}
+
         m_animator.ResetTrigger(m_HashStateBasicAttack);
         m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
+        SetAnimations();
+
+
+
     }
 
     private void Update()
     {
-        Move();
-
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
         m_animator.SetBool(m_HashStateGrounded, Time.time - lastGroundedTime <= lastGroundedGraceTime);
     }
@@ -209,10 +208,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        if(canJump)
-        {
-            jumpButtonPressedTime = Time.time;
-        }
+        jumpButtonPressedTime = Time.time;
     }
 
     void OnRun(InputValue value)
@@ -232,45 +228,98 @@ public class PlayerController : MonoBehaviour
         axis = movementValue.Get<Vector2>();
     }
 
-
-    void Move()
+    void CalculateIsGrounded()
     {
-        //if (GameManager.sharedInstance.CurrentGameState == GameState.inGame)
-        //{
-        //    movement.x = Mathf.SmoothDamp(movement.x, axis.x, ref smoothInputVelocity, smoothInputSpeed);
-        //}
-        movement = axis;
-        SetAnimations();
+        if(m_CharacterController.isGrounded)
+        {
+            lastGroundedTime = Time.time;
+        }
+        if(Time.time - lastGroundedTime <= jumpButtonGracePeriod)
+        {
+            m_IsGrounded = true;
+        }
+        else
+        {
+            m_IsGrounded = false;
+        }
+    }
+
+    void CalculateHorizontalMovement()
+    {
+        m_HorizontalSpeed = axis.x;
+
+        m_animator.SetFloat(m_HashStateHorizontalAxis, m_HorizontalSpeed, smoothInputSpeed, Time.fixedDeltaTime);
+        m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(m_HorizontalSpeed), smoothInputSpeed, Time.deltaTime);
+    }
+
+    void CalculateVerticalMovement()
+    {
+        if (m_IsGrounded)
+        {
+            canJump = true;
+            m_VerticalSpeed = -0.5f;
+            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod && canJump)
+            {
+                m_VerticalSpeed = jumpSpeed;
+                canJump = false;
+                jumpButtonPressedTime = null;
+                lastGroundedTime = null;
+            }
+        }
+        else
+        {
+            m_VerticalSpeed += Physics.gravity.y * Time.fixedDeltaTime;
+        }
     }
 
     private void OnAnimatorMove()
     {
-        Vector3 velocity = m_animator.deltaPosition;
-        velocity = AdjustVelocityToSlope(velocity);
-        velocity.y += ySpeed * Time.deltaTime;
-        velocity.z = 0f;
-        m_CharacterController.Move(velocity);
-    }
-
-    private Vector3 AdjustVelocityToSlope(Vector3 velocity)
-    {
-        var ray = new Ray(transform.position, Vector3.down);
-        if(Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
+        Vector3 movement;
+        if (m_IsGrounded)
         {
-            var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-            var adjustedVelovity = slopeRotation * velocity;
-
-            if(adjustedVelovity.y < 0)
+            var ray = new Ray(transform.position, Vector3.down);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
             {
-                return adjustedVelovity;
+                /*var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
+                var adjustedVelovity = slopeRotation * velocity;
+                if (adjustedVelovity.y < 0)
+                {
+                    return adjustedVelovity;
+                }*/
+
+                movement = Vector3.ProjectOnPlane(m_animator.deltaPosition, hitInfo.normal);
+
+            }
+            else
+            {
+                movement = m_animator.deltaPosition;
             }
         }
-        return velocity;
+        else
+        {
+            movement = m_HorizontalSpeed * this.transform.forward * Time.fixedDeltaTime * 3.5f;
+        }
+
+        movement += m_VerticalSpeed * Vector3.up * Time.fixedDeltaTime;
+        movement.z = 0f;
+        m_CharacterController.Move(movement);
+        if (m_IsGrounded)
+        {
+            m_animator.SetFloat(m_HashParameterVerticalVelocity, m_VerticalSpeed);
+        }
+
+        m_animator.SetBool(m_HashStateGrounded, m_IsGrounded);
     }
+
+    //private Vector3 AdjustVelocityToSlope(Vector3 velocity)
+    //{
+
+    //    return velocity;
+    //}
 
     private void SetAnimations()
     {
-        if (movement.x == 0)
+        if (m_HorizontalSpeed == 0)
         {
             m_animator.SetBool(m_HashStateIsWalking, false);
         }
@@ -288,9 +337,6 @@ public class PlayerController : MonoBehaviour
             facingRight = false;
             SetFacing();
         }
-        m_animator.SetFloat(m_HashStateHorizontalAxis, movement.x, smoothInputSpeed, Time.deltaTime);
-        m_animator.SetFloat(m_HashParameterVerticalVelocity, ySpeed);
-        m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(movement.x), smoothInputSpeed, Time.deltaTime);
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
 
