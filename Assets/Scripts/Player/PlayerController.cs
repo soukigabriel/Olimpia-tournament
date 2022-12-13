@@ -27,14 +27,12 @@ public class PlayerController : MonoBehaviour
     public Vector2 movement;
     [SerializeField] private float smoothInputSpeed = 0.2f;
     private float smoothInputVelocity;
-    [SerializeField] Rigidbody m_rigidBody;
-    [SerializeField] float jumpForce;
+    [SerializeField] float jumpSpeed;
     public bool canJump;
     public LayerMask groundMask;
     [SerializeField] float rayLenght = 2f;
     public Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
     public bool canMove;
-    [SerializeField] bool isGrounded;
     public bool isInCombo;
     Vector3 initialPosition;
 
@@ -61,6 +59,14 @@ public class PlayerController : MonoBehaviour
     AudioSource m_AudioSource;
 
     public PlayerInput m_PlayerInput;
+
+    public CharacterController m_CharacterController;
+    private float ySpeed;
+    private float? lastGroundedTime;
+    private float? jumpButtonPressedTime;
+    public float jumpButtonGracePeriod;
+    public float lastGroundedGraceTime;
+
 
     void GetOtherPlayer()
     {
@@ -90,10 +96,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //Time.timeScale = 0.1f;
-
         initialPosition = this.transform.position;
-        m_rigidBody = GetComponent<Rigidbody>();
         InitialSettings();
         GameManager.OnInGame += InitialSettings;
         attackAudioLength = attackAudio.Length;
@@ -105,6 +108,27 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ySpeed += Physics.gravity.y * Time.fixedDeltaTime;
+        if (m_CharacterController.isGrounded)
+        {
+            lastGroundedTime = Time.time;
+        }
+        if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
+        {
+            canJump = true;
+            ySpeed = -0.5f;
+            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
+            {
+                ySpeed = jumpSpeed;
+                canJump = false;
+                jumpButtonPressedTime = null;
+                lastGroundedTime = null;
+            }
+        }
+        else
+        {
+            canJump = false;
+        }
         m_animator.ResetTrigger(m_HashStateBasicAttack);
         m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
     }
@@ -112,10 +136,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
-        IsTouchingTheGround();
+
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
-        //Jump();
-        Debug.DrawLine(this.transform.position + raycastOffset, this.transform.localPosition + raycastOffset + (Vector3.down * rayLenght), Color.red);
+        m_animator.SetBool(m_HashStateGrounded, Time.time - lastGroundedTime <= lastGroundedGraceTime);
     }
 
     void SetPositions()
@@ -135,10 +158,9 @@ public class PlayerController : MonoBehaviour
 
     void OnBasicAttack()
     {
-        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame && isGrounded)
+        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame && m_CharacterController.isGrounded)
         {
             m_animator.SetTrigger(m_HashStateBasicAttack);
-            m_rigidBody.velocity = Vector3.zero;
             canMove = false;
             isInCombo = true;
             m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
@@ -187,25 +209,9 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        if (isGrounded && !isInCombo && GameManager.sharedInstance.CurrentGameState == GameState.inGame)
+        if(canJump)
         {
-            m_animator.applyRootMotion = false;
-            m_rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //canJump = false;
-        }
-    }
-
-    void IsTouchingTheGround()
-    {
-        if(Physics.Raycast(this.transform.position + raycastOffset, Vector2.down, rayLenght, groundMask))
-        {
-            isGrounded = true;
-            m_animator.SetBool(m_HashStateGrounded, isGrounded);
-        }
-        else
-        {
-            isGrounded = false;
-            m_animator.SetBool(m_HashStateGrounded, isGrounded);
+            jumpButtonPressedTime = Time.time;
         }
     }
 
@@ -226,6 +232,7 @@ public class PlayerController : MonoBehaviour
         axis = movementValue.Get<Vector2>();
     }
 
+
     void Move()
     {
         //if (GameManager.sharedInstance.CurrentGameState == GameState.inGame)
@@ -236,6 +243,30 @@ public class PlayerController : MonoBehaviour
         SetAnimations();
     }
 
+    private void OnAnimatorMove()
+    {
+        Vector3 velocity = m_animator.deltaPosition;
+        velocity = AdjustVelocityToSlope(velocity);
+        velocity.y += ySpeed * Time.deltaTime;
+        velocity.z = 0f;
+        m_CharacterController.Move(velocity);
+    }
+
+    private Vector3 AdjustVelocityToSlope(Vector3 velocity)
+    {
+        var ray = new Ray(transform.position, Vector3.down);
+        if(Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
+        {
+            var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
+            var adjustedVelovity = slopeRotation * velocity;
+
+            if(adjustedVelovity.y < 0)
+            {
+                return adjustedVelovity;
+            }
+        }
+        return velocity;
+    }
 
     private void SetAnimations()
     {
@@ -247,18 +278,18 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetBool(m_HashStateIsWalking, true);
         }
-        if (otherPlayer.position.x > this.transform.position.x && !facingRight && isGrounded)
+        if (otherPlayer.position.x > this.transform.position.x && !facingRight && m_CharacterController.isGrounded)
         {
             facingRight = true;
             SetFacing();
         }
-        else if (otherPlayer.position.x < this.transform.position.x && facingRight && isGrounded)
+        else if (otherPlayer.position.x < this.transform.position.x && facingRight && m_CharacterController.isGrounded)
         {
             facingRight = false;
             SetFacing();
         }
         m_animator.SetFloat(m_HashStateHorizontalAxis, movement.x, smoothInputSpeed, Time.deltaTime);
-        m_animator.SetFloat(m_HashParameterVerticalVelocity, m_rigidBody.velocity.y);
+        m_animator.SetFloat(m_HashParameterVerticalVelocity, ySpeed);
         m_animator.SetFloat(m_HashStateHorizontalAxisAbs, Mathf.Abs(movement.x), smoothInputSpeed, Time.deltaTime);
         m_animator.SetFloat(m_HashStatePositionDiference, otherPlayer.position.x - this.transform.position.x);
     }
