@@ -70,6 +70,16 @@ public class PlayerController : MonoBehaviour
     public Vector3 velocity;
     public bool m_IsGrounded;
 
+    public bool hasAttacked;
+    WaitForSeconds m_AttackInputWait;
+    Coroutine m_AttackWaitCoroutine;
+    const float k_AttackInputDuration = 0.03f;
+
+    private void Awake()
+    {
+        m_AttackInputWait = new WaitForSeconds(k_AttackInputDuration);
+    }
+
     void GetOtherPlayer()
     {
         switch (thisPlayer)
@@ -114,30 +124,43 @@ public class PlayerController : MonoBehaviour
         CalculateHorizontalMovement();
         CalculateVerticalMovement();
 
-        //if(Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
-        //{
-        //    velocity = m_animator.velocity * Time.fixedDeltaTime;
-        //    velocity.y = ySpeed;
-        //    m_CharacterController.Move(velocity * Time.fixedDeltaTime);
-        //}
-        //else
-        //{
-        //    m_CharacterController.Move(rootMotion);
-        //    rootMotion = Vector3.zero;
-        //}
-
         m_animator.ResetTrigger(m_HashStateBasicAttack);
+        
+        if(hasAttacked)
+        {
+            m_animator.SetTrigger(m_HashStateBasicAttack);
+            hasAttacked = false;
+            canMove = false;
+            isInCombo = true;
+        }
+        
+        
         m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
         SetAnimations();
-
-
-
     }
 
     private void Update()
     {
         m_animator.SetFloat(m_HashStateTime, Mathf.Repeat(m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
-        m_animator.SetBool(m_HashStateGrounded, Time.time - lastGroundedTime <= lastGroundedGraceTime);
+        m_animator.SetBool(m_HashStateGrounded, m_IsGrounded);
+    }
+
+    void SetAttackTime()
+    {
+        if(m_AttackWaitCoroutine != null)
+        {
+            StopCoroutine(m_AttackWaitCoroutine);
+        }
+        m_AttackWaitCoroutine = StartCoroutine(AttackWait());
+    }
+
+    IEnumerator AttackWait()
+    {
+        hasAttacked = true;
+
+        yield return m_AttackInputWait;
+
+        hasAttacked = false;
     }
 
     void SetPositions()
@@ -157,17 +180,11 @@ public class PlayerController : MonoBehaviour
 
     void OnBasicAttack()
     {
-        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame && m_CharacterController.isGrounded)
+        if(GameManager.sharedInstance.CurrentGameState == GameState.inGame && m_IsGrounded)
         {
-            m_animator.SetTrigger(m_HashStateBasicAttack);
-            canMove = false;
-            isInCombo = true;
-            m_animator.SetBool(m_HashParameterIsInCombo, isInCombo);
-
-
+            SetAttackTime();
 
             //PlayRandomAttackAudio();
-            //canMove = false;
         }
     }
 
@@ -184,10 +201,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void ActivateRootMotion()
-    {
-        m_animator.applyRootMotion = true;
-    }
 
     public void PlayRandomDeathAudio()
     {
@@ -280,15 +293,7 @@ public class PlayerController : MonoBehaviour
             var ray = new Ray(transform.position, Vector3.down);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
             {
-                /*var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-                var adjustedVelovity = slopeRotation * velocity;
-                if (adjustedVelovity.y < 0)
-                {
-                    return adjustedVelovity;
-                }*/
-
-                movement = Vector3.ProjectOnPlane(m_animator.deltaPosition, hitInfo.normal);
-
+                 movement = Vector3.ProjectOnPlane(m_animator.deltaPosition, hitInfo.normal);
             }
             else
             {
@@ -297,25 +302,18 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            movement = m_HorizontalSpeed * this.transform.forward * Time.fixedDeltaTime * 3.5f;
+            movement = m_HorizontalSpeed * Vector3.right * Time.fixedDeltaTime * 3.5f;
         }
-
         movement += m_VerticalSpeed * Vector3.up * Time.fixedDeltaTime;
         movement.z = 0f;
         m_CharacterController.Move(movement);
-        if (m_IsGrounded)
+        if (!m_IsGrounded)
         {
             m_animator.SetFloat(m_HashParameterVerticalVelocity, m_VerticalSpeed);
         }
 
         m_animator.SetBool(m_HashStateGrounded, m_IsGrounded);
     }
-
-    //private Vector3 AdjustVelocityToSlope(Vector3 velocity)
-    //{
-
-    //    return velocity;
-    //}
 
     private void SetAnimations()
     {
@@ -327,12 +325,12 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetBool(m_HashStateIsWalking, true);
         }
-        if (otherPlayer.position.x > this.transform.position.x && !facingRight && m_CharacterController.isGrounded)
+        if (otherPlayer.position.x > this.transform.position.x && !facingRight && m_IsGrounded)
         {
             facingRight = true;
             SetFacing();
         }
-        else if (otherPlayer.position.x < this.transform.position.x && facingRight && m_CharacterController.isGrounded)
+        else if (otherPlayer.position.x < this.transform.position.x && facingRight && m_IsGrounded)
         {
             facingRight = false;
             SetFacing();
