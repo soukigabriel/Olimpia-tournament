@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public delegate void StateChanged();
     public static event StateChanged OnInGame;
     public static event StateChanged OnGameOver;
+    public PlayerResources deadPlayer;
 
     public static GameManager sharedInstance;
 

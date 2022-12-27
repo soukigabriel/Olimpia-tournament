@@ -23,18 +23,18 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("Movement variables")]
-    public Vector2 axis;
+    Vector2 axis;
     private float m_HorizontalSpeed;
     private float m_VerticalSpeed;
     [SerializeField] private float smoothInputSpeed = 0.2f;
     private float smoothInputVelocity;
     [SerializeField] float jumpSpeed;
-    public bool canJump;
+    [HideInInspector] public bool canJump;
     public LayerMask groundMask;
-    [SerializeField] float rayLenght = 2f;
     public Vector3 raycastOffset = new Vector3(0, 0.775f, 0);
-    public bool canMove;
-    public bool isInCombo;
+    [HideInInspector] public bool canMove;
+    [HideInInspector] public bool isInCombo;
+    [HideInInspector] public bool onGuard;
     Vector3 initialPosition;
 
     [Space]
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     readonly int m_HashStateGrounded = Animator.StringToHash("Grounded");
     int m_HashParameterIsInCombo = Animator.StringToHash("IsInCombo");
     int m_HashParameterVerticalVelocity = Animator.StringToHash("VerticalSpeed");
+    readonly int m_HashOnGuard = Animator.StringToHash("OnGuard");
 
     [Space]
     [Header("Audio")]
@@ -66,11 +67,11 @@ public class PlayerController : MonoBehaviour
     private float? jumpButtonPressedTime;
     public float jumpButtonGracePeriod;
     public float lastGroundedGraceTime;
-    public Vector3 rootMotion;
-    public Vector3 velocity;
-    public bool m_IsGrounded;
+    Vector3 rootMotion;
+    Vector3 velocity;
+    bool m_IsGrounded;
 
-    public bool hasAttacked;
+    bool hasAttacked;
     WaitForSeconds m_AttackInputWait;
     Coroutine m_AttackWaitCoroutine;
     const float k_AttackInputDuration = 0.03f;
@@ -100,7 +101,6 @@ public class PlayerController : MonoBehaviour
     {
         canJump = true;
         canMove = true;
-        m_animator.SetTrigger("Revive");
         isInCombo = false;
         GetOtherPlayer();
         SetPositions();
@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        onGuard = false;
         initialPosition = this.transform.position;
         InitialSettings();
         GameManager.OnInGame += InitialSettings;
@@ -239,6 +240,14 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue)
     {
         axis = movementValue.Get<Vector2>();
+    }
+
+    void OnGuard(InputValue value)
+    {
+        float floatValue = value.Get<float>();
+        print(floatValue);
+        onGuard = floatValue == 1.0f ? true : false;
+        m_animator.SetBool(m_HashOnGuard, onGuard);
     }
 
     void CalculateIsGrounded()

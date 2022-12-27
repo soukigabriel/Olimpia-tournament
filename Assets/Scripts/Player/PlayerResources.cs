@@ -10,9 +10,11 @@ public class PlayerResources : MonoBehaviour
     Player thisPlayer;
     GameObject myHealthBar;
     Slider myHealthBarSlider;
+    private Animator m_Animator;
 
     private void Awake()
     {
+        m_Animator = gameObject.GetComponent<Animator>();
         thisPlayer = gameObject.GetComponent<PlayerController>().thisPlayer;
         if(thisPlayer == Player.Player1)
         {
@@ -55,6 +57,7 @@ public class PlayerResources : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        myHealthBarSlider.maxValue = maxHealth;
         myHealthBarSlider.value = currentHealth;
     }
 
@@ -66,7 +69,7 @@ public class PlayerResources : MonoBehaviour
     void Die()
     {
         UIManager.shareInstance.ShowGameOver(thisPlayer);
-        gameObject.GetComponentInChildren<Animator>().SetInteger("RandomDeath", Random.Range(1, 5));
+        GameManager.sharedInstance.deadPlayer = this;
         gameObject.GetComponentInChildren<Animator>().SetTrigger("Death");
         GameManager.sharedInstance.CurrentGameState = GameState.gameOver;
     }

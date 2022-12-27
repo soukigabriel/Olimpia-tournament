@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 14b3c942f6d58b3408e546291d89529d
+guid: 471f911cb343bc3488f6b010ed11f3a6
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Idle_2
+    second: TronteAttack1
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -22,9 +22,12 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 16.661076 mm\n\t'mixamorig:LeftLeg' : position error = 36.438099
-      mm\n\t'mixamorig:LeftFoot' : position error = 23.462641 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 18.399620 mm\n"
+      : position error = 13.722034 mm\n\t'mixamorig:LeftLeg' : position error = 5.334883
+      mm\n\t'mixamorig:LeftFoot' : position error = 44.495556 mm\n\t'mixamorig:LeftToeBase'
+      : position error = 43.262947 mm\n\t'mixamorig:RightUpLeg' : position error
+      = 12.951935 mm\n\t'mixamorig:RightLeg' : position error = 5.335113 mm\n\t'mixamorig:RightFoot'
+      : position error = 44.495502 mm\n\t'mixamorig:RightToeBase' : position error
+      = 43.262947 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -40,14 +43,14 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle_2
+      name: TronteAttack1
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 128
+      lastFrame: 72
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0.02
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -55,7 +58,7 @@ ModelImporter:
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1

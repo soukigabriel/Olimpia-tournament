@@ -1626,7 +1626,7 @@ Animator:
   m_GameObject: {fileID: 6630873689213480585}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d54deab0273e0c34ba7da236a9688c3a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2390ecac8b530114e82258a877e82727, type: 2}
+  m_Controller: {fileID: 9100000, guid: f8c68c6420d76a14894c954aaf7c7db2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -1672,15 +1672,12 @@ MonoBehaviour:
   leftRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   thisPlayer: 1
   m_player: {fileID: 6291045794497557555}
-  axis: {x: 0, y: 0}
-  movement: {x: 0, y: 0}
   smoothInputSpeed: 0.05
   jumpSpeed: 7
   canJump: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 2147483656
-  rayLenght: 0.85
   raycastOffset: {x: 0, y: 0.7, z: 0}
   canMove: 0
   isInCombo: 0
@@ -1715,7 +1712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7585ef0b04c344689d4e578709cde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
 --- !u!143 &1967064239
 CharacterController:
@@ -1728,7 +1725,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1.7
+  m_Height: 1.65
   m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -1838,7 +1835,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6630873689213480585}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 

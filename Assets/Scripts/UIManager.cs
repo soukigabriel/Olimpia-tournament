@@ -70,6 +70,9 @@ public class UIManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        Animator deadPlayerAnimator = GameManager.sharedInstance.deadPlayer.gameObject.GetComponent<Animator>();
+        deadPlayerAnimator?.SetTrigger("Revive");
+
         GameManager.sharedInstance.CurrentGameState = GameState.inGame;
     }
 }

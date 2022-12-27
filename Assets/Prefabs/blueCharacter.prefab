@@ -2092,7 +2092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7565632369366797816
 Transform:
   m_ObjectHideFlags: 0
@@ -2244,15 +2244,12 @@ MonoBehaviour:
   leftRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   thisPlayer: 0
   m_player: {fileID: 7565632369366797816}
-  axis: {x: 0, y: 0}
-  movement: {x: 0, y: 0}
   smoothInputSpeed: 0.05
   jumpSpeed: 7
   canJump: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 2147483656
-  rayLenght: 0.85
   raycastOffset: {x: 0, y: 0.7, z: 0}
   canMove: 0
   isInCombo: 0
@@ -2394,7 +2391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7585ef0b04c344689d4e578709cde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
 --- !u!143 &872954590
 CharacterController:

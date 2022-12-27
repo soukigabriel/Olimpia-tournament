@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 14b3c942f6d58b3408e546291d89529d
+guid: 1b6a1f69843e8724c8b6bb97f947dff6
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Idle_2
+    second: Melee Run Jump
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -20,11 +20,7 @@ ModelImporter:
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 16.661076 mm\n\t'mixamorig:LeftLeg' : position error = 36.438099
-      mm\n\t'mixamorig:LeftFoot' : position error = 23.462641 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 18.399620 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -40,22 +36,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle_2
+      name: Melee Run Jump
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 128
+      lastFrame: 110
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0.02
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
