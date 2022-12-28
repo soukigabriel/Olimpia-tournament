@@ -7,9 +7,6 @@ public enum Player { Player1, Player2 }
 
 public class PlayerController : MonoBehaviour
 {
-    //public delegate void PlayerDelegate();
-    //public event PlayerDelegate PlayerAttack;
-
     public Quaternion rightRotation;
     public Quaternion leftRotation;
 
@@ -245,7 +242,6 @@ public class PlayerController : MonoBehaviour
     void OnGuard(InputValue value)
     {
         float floatValue = value.Get<float>();
-        print(floatValue);
         onGuard = floatValue == 1.0f ? true : false;
         m_animator.SetBool(m_HashOnGuard, onGuard);
     }

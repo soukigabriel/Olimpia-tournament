@@ -30,6 +30,8 @@ public class PlayerCombat : MonoBehaviour
         foreach(Collider enemy in hitEnemies)
         {
             Animator enemyAnimator = enemy.GetComponentInChildren<Animator>();
+            PlayerController enemyPlayerController = enemy.GetComponent<PlayerController>();
+            PlayerResources enemyPlayerResources = enemy.GetComponent<PlayerResources>();
 
             //Añadir a esta condición que el enemigo no se este defendiendo
 
@@ -41,11 +43,14 @@ public class PlayerCombat : MonoBehaviour
             {
                 enemyAnimator.SetBool(m_HashParameterReceivingDamage, false);
             }
-            enemy.GetComponent<PlayerResources>().SetHealth(-baseAttackDamage);
             if (enemy.GetComponent<PlayerResources>().CurrentHealth > 0)
             {
-                enemy.GetComponentInChildren<Animator>().SetTrigger(m_HashParameterDamaged);
-                enemy.GetComponent<PlayerController>().PlayRandomHurtAudio();
+                enemyAnimator.SetTrigger(m_HashParameterDamaged);
+                if(!enemyPlayerController.onGuard)
+                {
+                    enemyPlayerController.PlayRandomHurtAudio();
+                    enemyPlayerResources.SetHealth(-baseAttackDamage);
+                }
             }
         }
     }
